@@ -50,74 +50,44 @@ $(document).ready(function(){
         return null
     }
 
-    function minmax(novaGrid, profundidade, jogador){
-        //Ao chamar a função minmax verifica a situação do jogo para determinar como proceder
+    function dfs(novaGrid, profundidade, jogador){
+        //Ao chamar a função dfs verifica a situação do jogo para determinar como proceder
         const estado_jogo = acabouJogo(novaGrid);
 
         if(estado_jogo === false){ //Jogo em aberto, ainda há possibilidade de jogadas (novos nós)
-            const valores = [];
-
+            let comp_ganhou = false;
             for (var i = 0; i < 3; i++) {
                 for (var j = 0; j < 3; j++) {
                     const grid_copia = _.cloneDeep(novaGrid);
                     if(grid_copia[i][j] === ' ') {
                         grid_copia[i][j] = jogador;
-                        const valor = minmax(grid_copia, profundidade + 1, (jogador === JOGADOR_TOKEN)? COMPUTADOR_TOKEN : JOGADOR_TOKEN); //Alterna o valor do jogador
-                        valores.push({
-                            custo: valor,
-                            jogada: {
+                        comp_ganhou = dfs(grid_copia, profundidade + 1, (jogador === JOGADOR_TOKEN)? COMPUTADOR_TOKEN : JOGADOR_TOKEN); //Alterna o valor do jogador
+                        if (comp_ganhou) {
+                            var jogada = {
                                 i: i,
                                 j: j
-                            }
-                        });
+                            };
+                    
+                            return jogada;
+                        }
                     }
                 }
-            }
-
-            if(jogador === COMPUTADOR_TOKEN){ //Retorna o max quando é a vez do computador
-                const max = _.maxBy(valores, (v) =>{
-                    return v.custo;
-                });
-                if(profundidade === 0){
-                    return max.jogada;
-                }
-                else{
-                    return max.custo;
-                }
-            }
-            else{ //Retorna min quando é a vez do jogador
-
-                const min = _.minBy(valores, (v) =>{
-                    return v.custo;
-                });
-
-                if(profundidade === 0){
-                    return min.jogada;
-                }
-                else{
-                    return min.custo;
-                }
-
-
-            }
-
-
-            
+            }            
         } 
         else if(estado_jogo === null){ //Jogo finalizado, empatado
-            return 0;
+            return false;
         }
         else if(estado_jogo === JOGADOR_TOKEN){ //Jogo finalizado, jogador venceu
-            return profundidade - 10; //Mínimo para o jogador
+            return false; //Mínimo para o jogador
         }
         else if(estado_jogo === COMPUTADOR_TOKEN){ //Jogo finalizado, computador venceu
-            return 10 - profundidade; //Máximo para o computador
+            return true; //Máximo para o computador
         }
 
     }
 
     function jogadaIA(){
-        return minmax(grid,0,COMPUTADOR_TOKEN)
+        return dfs(grid,0,COMPUTADOR_TOKEN)
     }
     
     $('.col').click(function(){
