@@ -5,6 +5,9 @@ body{
     text-align: center;
 }
 
+table {
+    margin: auto;
+}
 
 .col{
     display: inline-block;
@@ -16,6 +19,7 @@ body{
     padding: 20px;
     padding-top: 30px;
     font-size: 40px;
+    margin-left: 5px;
 }
 
 button{

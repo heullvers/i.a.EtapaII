@@ -8,6 +8,15 @@ $(document).ready(function(){
         [' ', ' ', ' ']
     ];
 
+    function sleep(milliseconds) {
+        var start = new Date().getTime();
+        for (var i = 0; i < 1e7; i++) {
+          if ((new Date().getTime() - start) > milliseconds){
+            break;
+          }
+        }
+    }
+
     function acabouJogo(novaGrid){
         //Verifica se o jogo acabou
         //Verificar horizontal, vertical e diagonal
@@ -134,13 +143,19 @@ $(document).ready(function(){
         else{
             //Se não acabou jogo I.A. precisa analisar sua jogada
             const movimento = jogadaIA();
-            grid[movimento.i][movimento.j] = COMPUTADOR_TOKEN;
-            $('.col[data-i=' + movimento.i + '][data-j=' + movimento.j + ']').html(COMPUTADOR_TOKEN);
+            if(movimento){
+                grid[movimento.i][movimento.j] = COMPUTADOR_TOKEN;
+                $('.col[data-i=' + movimento.i + '][data-j=' + movimento.j + ']').html(COMPUTADOR_TOKEN);
+            }
+            else{
+                alert('Empate')
+            }
         }
 
         if(acabouJogo(grid)){
             alert('Você perdeu')
         }
+
     });
 
     $('#reiniciar').click(function(){
