@@ -9,7 +9,7 @@ $(document).ready(function(){
         [' ', ' ', ' '],
         [' ', ' ', ' ']
     ];
-
+    
     function acabouJogo(novaGrid){
         //Verifica se o jogo acabou
         //Verificar horizontal, vertical e diagonal
@@ -118,8 +118,47 @@ $(document).ready(function(){
 
     }
 
-    function jogadaIA(){
-        return minmax(grid,0,COMPUTADOR_TOKEN)
+    function jogadaIA(algoritmo){
+        if(algoritmo == 'minmax')
+            return minmax(grid,0,COMPUTADOR_TOKEN)
+        else
+            return dfs(grid,0,COMPUTADOR_TOKEN)
+    }
+
+    function dfs(novaGrid, profundidade, jogador){
+        //Ao chamar a função dfs verifica a situação do jogo para determinar como proceder
+        const estado_jogo = acabouJogo(novaGrid);
+
+        if(estado_jogo === false){ //Jogo em aberto, ainda há possibilidade de jogadas (novos nós)
+            let comp_ganhou = false;
+            for (var i = 0; i < 3; i++) {
+                for (var j = 0; j < 3; j++) {
+                    const grid_copia = _.cloneDeep(novaGrid);
+                    if(grid_copia[i][j] === ' ') {
+                        grid_copia[i][j] = jogador;
+                        comp_ganhou = dfs(grid_copia, profundidade + 1, (jogador === JOGADOR_TOKEN)? COMPUTADOR_TOKEN : JOGADOR_TOKEN); //Alterna o valor do jogador
+                        if (comp_ganhou) {
+                            var jogada = {
+                                i: i,
+                                j: j
+                            };
+                    
+                            return jogada;
+                        }
+                    }
+                }
+            }            
+        } 
+        else if(estado_jogo === null){ //Jogo finalizado, empatado
+            return false;
+        }
+        else if(estado_jogo === JOGADOR_TOKEN){ //Jogo finalizado, jogador venceu
+            return false; //Mínimo para o jogador
+        }
+        else if(estado_jogo === COMPUTADOR_TOKEN){ //Jogo finalizado, computador venceu
+            return true; //Máximo para o computador
+        }
+
     }
 
     function verifica_vencedor(valor){
@@ -138,7 +177,16 @@ $(document).ready(function(){
     }
     
     $('.col').click(function(){
+        var radio_buttons = $("input[name='modo']:checked").val();
+        console.log(radio_buttons);
+
+        if(radio_buttons === undefined){
+            alert('Selecione o modo');
+            return;
+        }
+
         $this = $(this)
+
         if(($this.html() == ' ') && (VENCEDOR === '')){
             $this.html(JOGADOR_TOKEN);
             console.log($this.html())
@@ -151,7 +199,7 @@ $(document).ready(function(){
             }
             else{
                 //Se não acabou jogo I.A. precisa analisar sua jogada
-                const movimento = jogadaIA();
+                const movimento = jogadaIA(radio_buttons);
                 if(movimento){
                     grid[movimento.i][movimento.j] = COMPUTADOR_TOKEN;
                     $('.col[data-i=' + movimento.i + '][data-j=' + movimento.j + ']').html(COMPUTADOR_TOKEN);

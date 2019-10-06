@@ -8,30 +8,32 @@
     </head>
 
     <body>
-        
-        <div>
-            <table>
-                <tr>
-                    <td class="col" data-i="0" data-j="0"> </td>
-                    <td class="col" data-i="0" data-j="1"> </td>
-                    <td class="col" data-i="0" data-j="2"> </td>
-                </tr>
-        
-                <tr>
-                    <td class="col" data-i="1" data-j="0"> </td>
-                    <td class="col" data-i="1" data-j="1"> </td>
-                    <td class="col" data-i="1" data-j="2"> </td>
-                </tr>
-        
-                <tr>
-                    <td class="col" data-i="2" data-j="0"> </td>
-                    <td class="col" data-i="2" data-j="1"> </td>
-                    <td class="col" data-i="2" data-j="2"> </td>
-                </tr>
-            </table>
-        </div>
+        <form action="" class="formulario">
+                <h2>MODO</h2>
+                <input type="radio" name="modo" value="minmax" class="escolha">IMPOSSÍVEL (MinMax)<br>
+                <input type="radio" name="modo" value="profundidade" class="escolha">DIFÍCIL (Profundidade)<br>
+        </form>
+        <table>
+            <tr>
+                <td class="col" data-i="0" data-j="0"> </td>
+                <td class="col" data-i="0" data-j="1"> </td>
+                <td class="col" data-i="0" data-j="2"> </td>
+            </tr>
+    
+            <tr>
+                <td class="col" data-i="1" data-j="0"> </td>
+                <td class="col" data-i="1" data-j="1"> </td>
+                <td class="col" data-i="1" data-j="2"> </td>
+            </tr>
+    
+            <tr>
+                <td class="col" data-i="2" data-j="0"> </td>
+                <td class="col" data-i="2" data-j="1"> </td>
+                <td class="col" data-i="2" data-j="2"> </td>
+            </tr>
+        </table>
 
-        <div>
+        <div id="reiniciar">
             <button id="reiniciar">Reiniciar</button>
         </div>
         

@@ -2,7 +2,18 @@ body{
     margin: 0px;
     margin-top: 10px;
     background-color: #9400D3;
+}
+
+.formulario{
+    padding-top: 30px;
+    margin-left: 5px;
+    width: 400px;
     text-align: center;
+    color: white;
+}
+
+input{
+    margin-top: 20px;
 }
 
 table {
@@ -21,7 +32,6 @@ table {
     background-color: white;
     margin-top: 2px;
     padding: 20px;
-    padding-top: 30px;
     font-size: 40px;
     margin-left: 5px;
 }
@@ -30,4 +40,9 @@ button{
     margin-top: 10px;
     padding: 20px;
     font-size: 30px;
+}
+
+#reiniciar {
+    margin-top: 10px;
+    text-align: center;
 }
