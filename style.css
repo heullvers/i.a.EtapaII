@@ -1,12 +1,16 @@
 body{
     margin: 0px;
     margin-top: 10px;
-    background-color: orange;
+    background-color: #9400D3;
     text-align: center;
 }
 
 table {
     margin: auto;
+}
+
+.jogada{
+    color: white;
 }
 
 .col{

@@ -1,6 +1,8 @@
 const JOGADOR_TOKEN = 'X'
 const COMPUTADOR_TOKEN = 'Y'
 
+var VENCEDOR = '';
+
 $(document).ready(function(){
     const grid = [
         [' ', ' ', ' '],
@@ -128,32 +130,49 @@ $(document).ready(function(){
     function jogadaIA(){
         return minmax(grid,0,COMPUTADOR_TOKEN)
     }
+
+    function verifica_vencedor(valor){
+        if(valor === true){
+            VENCEDOR = true;
+            alert('Você venceu');
+        }
+        else if(valor === null){
+            VENCEDOR = null;
+            alert('Você nem ganhou nem perdeu');
+        }
+        else{
+            VENCEDOR = false;
+            alert('Você perdeu');
+        }
+    }
     
     $('.col').click(function(){
         $this = $(this)
-        $this.html(JOGADOR_TOKEN);
-        const i = $this.data('i');
-        const j = $this.data('j');
-        grid[i][j] = JOGADOR_TOKEN;
+        if(($this.html() == ' ') && (VENCEDOR === '')){
+            $this.html(JOGADOR_TOKEN);
+            console.log($this.html())
+            const i = $this.data('i');
+            const j = $this.data('j');
+            grid[i][j] = JOGADOR_TOKEN;
 
-        if(acabouJogo(grid)){
-            alert('Você venceu')
-            return;
-        }
-        else{
-            //Se não acabou jogo I.A. precisa analisar sua jogada
-            const movimento = jogadaIA();
-            if(movimento){
-                grid[movimento.i][movimento.j] = COMPUTADOR_TOKEN;
-                $('.col[data-i=' + movimento.i + '][data-j=' + movimento.j + ']').html(COMPUTADOR_TOKEN);
+            if(acabouJogo(grid)){
+                return verifica_vencedor(true);
             }
             else{
-                alert('Empate')
+                //Se não acabou jogo I.A. precisa analisar sua jogada
+                const movimento = jogadaIA();
+                if(movimento){
+                    grid[movimento.i][movimento.j] = COMPUTADOR_TOKEN;
+                    $('.col[data-i=' + movimento.i + '][data-j=' + movimento.j + ']').html(COMPUTADOR_TOKEN);
+                }
+                else{
+                    return verifica_vencedor(null);
+                }
             }
-        }
 
-        if(acabouJogo(grid)){
-            alert('Você perdeu')
+            if(acabouJogo(grid)){
+                return verifica_vencedor(false);
+            }
         }
 
     });
@@ -165,6 +184,7 @@ $(document).ready(function(){
                 $('.col[data-i=' + i + '][data-j=' + j + ']').html(' ');
             }
         }
+        VENCEDOR = ''
     })
 });
 
